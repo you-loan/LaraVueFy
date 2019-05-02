@@ -9,13 +9,17 @@ Vuetify...ing Laravel
 4. [Add Vuet to Laravel](#add-vuet-to-Laravel)
 5. [Using Vue](#using-vue)
 	1. [Javascript setting](#javascript-setting)
-	2. [Create our application's main component](#cerate-our-applications-main-component)
-	3. [Include our Vue application into the markup] (#include-our-vue-application-into-the-markup)
+	2. [Create our application's main component](#create-our-applications-main-component)
+	3. [Include our Vue application into the markup](#include-our-vue-application-into-the-markup)
 	4. [Run NPM and see the results](#run-npm-and-see-the-results)
 6. [Multi components app](#multi-components-app)
-
-
-5. [Using a router](#using-a-router)
+	1. [Structuring our application in parts](#structuring-our-application-in-parts)
+7. [Add Vuetify](#add-vuetify)
+	1. [AppHeader](#appheader)
+	2. [AppFooter](#appfooter)
+	3. [App](#App)
+	4. [Markup review](#markup-review)
+	5. [Other components](#other-components)
 
 
 # Requirements
@@ -246,9 +250,68 @@ If you reload the page (if compilation completed with success) you will see now 
 
 If now you reload the page you can see the links at the top of the page and, clicking on them, the message under them will change accordingly with the component's link you clicked.
 
+## Structuring our application in parts
+
+Our components share the application strucure and if we want to have some functionalities into the structure parts and/or keep the application file small and mainenable we need to refactor our application file in order to decompose it in several parts For example in our application we can have an header containing the menu and our logo, a footer with the copyright and our social links and so on.
+
+For semplicity reasons we'll have just an header and a footer. Create a new folder called layout under `resources/js/components` folder. Into this one create a `AppHeader.vue` file
+
+	<template>
+	    <div>
+	        <ul>
+	            <li><router-link to="/">Home</router-link></li>
+	            <li><router-link to="/contact">Contact</router-link></li>
+	        </ul>
+	    </div>
+	</template>
+	
+	<script>
+		export default {
+			name: "AppHeader"
+		}
+	</script>
+
+and an `AppFooter.vue` one
+
+	<template>
+	  <div>
+	    &copy; 2019 - YOUniversal
+	  </div>
+	</template>
+	
+	<script>
+		export default {
+			name: "AppFooter",
+		}
+	</script>
+
+and then import, register and use them into `App.vue` 
+
+	<template>
+	  <div>
+	  														// Use AppHeader
+	      <app-header></app-header>
+	      <router-view></router-view>						// Use AppFooter
+	      <app-footer></app-footer>
+	  </div>
+	</template>
+	
+	<script>
+	  import AppHeader from './components/layout/AppHeader'	// Import AppHeader
+	  import AppFooter from './components/layout/AppFooter'	//  Import AppFooter
+	
+	  export default {
+			name: 'App',
+	    components: {AppHeader, AppFooter}					// Register the components
+		}
+	</script>
+
+In this way we have already the same result but with in differents and smallest files.
+
+
 # Add Vuetify
 
-Now that our first **Vue** application is made and running we want to add **Vuetify** to it. Let's start installing it via NPM.
+Now our first **Vue** application is made and running but isn't so stilysh. It's possible to make the app pretty adding custom stylesheet rules but the easy way is to add **Vuetify** and to use its components to do it. Let's start installing it via NPM.
 
 	npm i vuetify --save
 
@@ -256,21 +319,96 @@ Once installed we need to import Vuetify's assets in `resources/scss/app.scss`
 
 	@import '~vuetify/dist/vuetify.min.css';
 
-and declare it into javascript section of our application `resources/js/components/App.vue`
+and declare it into  `resources/js/app.js`
 
-	<script>
-		import Vue from 'vue'         // Vue import
 		import Vuetify from 'vuetify' // Vuetify import
 		Vue.use(Vuetify)              // Vuetify component registration
+
+Now we can refactor our application structure components using Vuetify components.
+
+## AppHeader
+
+Let's add a ToolBar component to the header.
+
+	<template>
+	    <v-toolbar>
+	        <v-toolbar-side-icon></v-toolbar-side-icon>
+	        <v-toolbar-title>LaraVueFy</v-toolbar-title>
+	        <v-spacer></v-spacer>
+	        <v-toolbar-items class="hidden-sm-and-down">
+	            <v-btn flat><router-link to="/">Home</router-link></v-btn>
+	            <v-btn flat><router-link to="/contact">Contact</router-link></v-btn>
+	        </v-toolbar-items>
+	    </v-toolbar>
+	</template>
 	
-	  	export default {
-			name: 'App',
-	    	data: () => ({
-		    	message: 'Welcome to my first Vue application in Laravel'
-	    	})
+	<script>
+		export default {
+			name: "AppHeader"
 		}
 	</script>
 
 
+## AppFooter
 
+Let's add a Footer component to the footer.
 
+	<template>
+	  <v-footer dark height="auto" fixed>
+	    <v-card class="flex" flat tile>
+	      <v-card-title class="teal">
+	        <strong class="subheading">Get connected with us on social networks!</strong>
+	        <v-spacer></v-spacer>
+	        <v-btn v-for="icon in icons" :key="icon" class="mx-3" dark icon>
+	          <v-icon size="24px">{{ icon }}</v-icon>
+	        </v-btn>
+	      </v-card-title>
+	
+	      <v-card-actions class="grey darken-3 justify-center">
+	        &copy;2018 - <strong>YOUniversal</strong>
+	      </v-card-actions>
+	    </v-card>
+	  </v-footer>
+	</template>
+	
+	<script>
+		export default {
+			name: "AppFooter",
+			data: () => ({
+				icons: [
+					'fab fa-facebook',
+					'fab fa-linkedin',
+				]
+			})
+		}
+	</script>
+
+## App
+
+We can also review a litle the App component
+
+	<template>
+	  <v-app>
+	    <app-header />
+	    <v-content>
+	      <v-container fluid>
+	        <router-view />
+	      </v-container>
+	    </v-content>
+	    <app-footer />
+	  </v-app>
+	</template>
+	
+	<script>
+	  import AppHeader from './components/layout/AppHeader'
+	  import AppFooter from './components/layout/AppFooter'
+	
+	  export default {
+	    name: 'App',
+	    components: { AppHeader, AppFooter }
+	  }
+	</script>
+
+## Other components
+
+Taking inspiration from the official **Vuetify** documentation it's very easy to add Vuetify's components to our ones. As an example we can add a slider on the homepage and a contact form to our contact page. You can checkout the [repository](https://github.com/andrea-lorusso-yn/LaraVueFy) to have a look at the implementation.
