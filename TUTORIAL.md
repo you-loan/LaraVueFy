@@ -20,10 +20,16 @@ Vuetify...ing Laravel
 	3. [App](#App)
 	4. [Markup review](#markup-review)
 	5. [Other components](#other-components)
+8. [Notes](#notes)
+	1. [Routing](#routing)	
 
 
 # Requirements
-Before to start this tutorial you need Docker already installed anc configured. For this we already created "laravuefy" site configuration in our [Laradock](https://laradock.io/ "Laradock") installation.
+Before to start this tutorial you need Docker already installed anc configured. For this we already created "laravuefy" site configuration in our [Laradock](https://laradock.io/ "Laradock") installation. In alternative you can just run 
+
+	php artisan serve
+
+and visit http://127.0.0.1:8000 or configure your local server.	
 
 
 # Laravel installation
@@ -137,7 +143,7 @@ Now go to the browser and observe the result: you must see a simple white page s
 
 Ok, it's all good but this application do nothing and have a single page with a single message. In a real world application probably we need to do more than this. Let say for example we want to have an homepage and a contact page. In this case we can use **[VueRouter](https://router.vuejs.org/)** and two components to handle the two pages we need.
 
-Create our compoments into `resoureces/js/components` folder naming them `Home.vue` and `Contact.vue`. They will look very similar to our initial `App.vue` like the following:
+Create our components into `resoureces/js/components` folder naming them `Home.vue` and `Contact.vue`. They will look very similar to our initial `App.vue` like the following:
 
 **Home.vue**:
 
@@ -252,9 +258,9 @@ If now you reload the page you can see the links at the top of the page and, cli
 
 ## Structuring our application in parts
 
-Our components share the application strucure and if we want to have some functionalities into the structure parts and/or keep the application file small and mainenable we need to refactor our application file in order to decompose it in several parts For example in our application we can have an header containing the menu and our logo, a footer with the copyright and our social links and so on.
+Our components share the application strucure and if we want to have some functionalities into the structure parts and/or keep the application's files small and mainenable we need to refactor our application's file in order to separate it in several parts. For example in our application we can have an header containing the menu and our logo, a footer with the copyright and our social links and so on.
 
-For semplicity reasons we'll have just an header and a footer. Create a new folder called layout under `resources/js/components` folder. Into this one create a `AppHeader.vue` file
+For semplicity reasons we'll have just an header and a footer. Create a new folder called "layout" under `resources/js/components` folder. Into this one create a `AppHeader.vue` file
 
 	<template>
 	    <div>
@@ -306,7 +312,7 @@ and then import, register and use them into `App.vue`
 		}
 	</script>
 
-In this way we have already the same result but with in differents and smallest files.
+In this way we have still the same result but with differents and smallest files.
 
 
 # Add Vuetify
@@ -412,3 +418,14 @@ We can also review a litle the App component
 ## Other components
 
 Taking inspiration from the official **Vuetify** documentation it's very easy to add Vuetify's components to our ones. As an example we can add a slider on the homepage and a contact form to our contact page. You can checkout the [repository](https://github.com/andrea-lorusso-yn/LaraVueFy) to have a look at the implementation.
+
+
+# Notes
+
+## Routing
+
+If you try now to access directly to `/contact` url you'll see the 404 error page of Laravel. This because Laravel doesn't know nothing about VueRouter routing. You can solve this adding a route like this one to Laravel:
+
+	Route::get('/{any}', function() {
+		return view('welcome');
+	})->where('any', '.*');
