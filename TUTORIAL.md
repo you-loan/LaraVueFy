@@ -3,29 +3,29 @@ Vuetify...ing Laravel
 
 # Summary
 
-1. [Summary](#summary)
-2. [Requirements](#requirements)
-3. [Laravel Installation](#laravel-installation)
-4. [Add Vuet to Laravel](#add-vuet-to-Laravel)
-5. [Using Vue](#using-vue)
-	1. [Javascript setting](#javascript-setting)
-	2. [Create our application's main component](#create-our-applications-main-component)
-	3. [Include our Vue application into the markup](#include-our-vue-application-into-the-markup)
-	4. [Run NPM and see the results](#run-npm-and-see-the-results)
-6. [Multi components app](#multi-components-app)
-	1. [Structuring our application in parts](#structuring-our-application-in-parts)
-7. [Add Vuetify](#add-vuetify)
-	1. [AppHeader](#appheader)
-	2. [AppFooter](#appfooter)
-	3. [App](#App)
-	4. [Markup review](#markup-review)
-	5. [Other components](#other-components)
-8. [Notes](#notes)
-	1. [Routing](#routing)	
+- [LaraVueFy](#LaraVueFy)
+- [Summary](#Summary)
+- [Requirements](#Requirements)
+- [Laravel installation](#Laravel-installation)
+- [Add Vue to Laravel](#Add-Vue-to-Laravel)
+- [Using Vue](#Using-Vue)
+  - [Javascript setting](#Javascript-setting)
+  - [Create our application's main component](#Create-our-applications-main-component)
+  - [Include our Vue application into the markup](#Include-our-Vue-application-into-the-markup)
+  - [Run NPM and see the results](#Run-NPM-and-see-the-results)
+- [Multi components app](#Multi-components-app)
+  - [Structuring our application in parts](#Structuring-our-application-in-parts)
+- [Add Vuetify](#Add-Vuetify)
+  - [AppHeader](#AppHeader)
+  - [AppFooter](#AppFooter)
+  - [App](#App)
+  - [Other components](#Other-components)
+- [Notes](#Notes)
+  - [Routing](#Routing)
 
 
 # Requirements
-Before to start this tutorial you need Docker already installed anc configured. For this we already created "laravuefy" site configuration in our [Laradock](https://laradock.io/ "Laradock") installation. In alternative you can just run 
+Before to start this tutorial you need Docker already installed and configured. For this we already created "laravuefy" site configuration in our [Laradock](https://laradock.io/ "Laradock") installation. In alternative you can just run 
 
 	php artisan serve
 
@@ -141,7 +141,7 @@ Now go to the browser and observe the result: you must see a simple white page s
 
 # Multi components app
 
-Ok, it's all good but this application do nothing and have a single page with a single message. In a real world application probably we need to do more than this. Let say for example we want to have an homepage and a contact page. In this case we can use **[VueRouter](https://router.vuejs.org/)** and two components to handle the two pages we need.
+Ok, it's all fine but this application does nothing and have a single page with a single message. In a real world application probably we need to do more than this. Let say for example we want to have an homepage and a contact page. In this case we can use **[VueRouter](https://router.vuejs.org/)** and two components to handle the two pages we need.
 
 Create our components into `resoureces/js/components` folder naming them `Home.vue` and `Contact.vue`. They will look very similar to our initial `App.vue` like the following:
 
@@ -258,7 +258,7 @@ If now you reload the page you can see the links at the top of the page and, cli
 
 ## Structuring our application in parts
 
-Our components share the application strucure and if we want to have some functionalities into the structure parts and/or keep the application's files small and mainenable we need to refactor our application's file in order to separate it in several parts. For example in our application we can have an header containing the menu and our logo, a footer with the copyright and our social links and so on.
+Our components share the application strucure and if we want to have some functionalities into the structure parts and/or keep the application's files small and mainenable we need to refactor our application's file in order to separate it in several parts. For example in our application we can have an header containing the menu and our logo, a footer with the copyright, our social links and so on.
 
 For semplicity reasons we'll have just an header and a footer. Create a new folder called "layout" under `resources/js/components` folder. Into this one create a `AppHeader.vue` file
 
